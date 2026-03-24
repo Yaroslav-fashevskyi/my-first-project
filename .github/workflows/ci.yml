@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Check HTML syntax
+        run: htmlhint "*.html"
+
+      - name: Basic file checks
+        run: |
+          test -f README.md
+          test -f index.html
+          test -f styles.css
+          echo "All required files exist"
